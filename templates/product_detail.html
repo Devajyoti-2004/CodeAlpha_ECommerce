@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="detail-container">
+    <div class="detail-image">
+        {% if product.image %}
+            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+        {% else %}
+            <div class="placeholder-img large">📦 No Image</div>
+        {% endif %}
+    </div>
+    <div class="detail-info">
+        <span class="category-badge">{{ product.category.name }}</span>
+        <h1>{{ product.name }}</h1>
+        <h2 class="price-large">${{ product.price }}</h2>
+        <p class="description">{{ product.description }}</p>
+        <p class="stock-status">Status: <strong>{% if product.stock > 0 %}In Stock ({{ product.stock }} units left){% else %}Out of Stock{% endif %}</strong></p>
+        {% if product.stock > 0 %}
+            <a href="{% url 'add_to_cart' product.id %}" class="btn-primary large">Add to Cart</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

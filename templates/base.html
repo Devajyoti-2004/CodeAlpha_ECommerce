@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopHub | Modern E-Commerce</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="{% url 'product_list' %}" class="brand">Shop<span>Hub</span></a>
+            <form action="{% url 'product_list' %}" method="GET" class="search-form">
+                <input type="text" name="q" placeholder="Search products..." value="{{ query|default:'' }}">
+                <button type="submit">Search</button>
+            </form>
+            <nav class="nav-links">
+                <a href="{% url 'product_list' %}">Shop</a>
+                <a href="{% url 'cart_view' %}" class="cart-btn">
+                    🛒 Cart <span class="badge">{{ cart_count }}</span>
+                </a>
+                {% if user.is_authenticated %}
+                    <span class="user-greeting">Hi, {{ user.username }}</span>
+                    <a href="{% url 'logout' %}" class="auth-btn">Logout</a>
+                {% else %}
+                    <a href="{% url 'login' %}">Login</a>
+                    <a href="{% url 'register' %}" class="auth-btn highlight">Register</a>
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+
+    {% if messages %}
+        <div class="messages-container">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <main class="main-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2026 ShopHub Platform. Built for high-performance e-commerce.</p>
+    </footer>
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

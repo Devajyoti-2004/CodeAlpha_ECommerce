@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="cart-container">
+    <h2>Shopping Cart</h2>
+    {% if items %}
+        <table class="cart-table">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Subtotal</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td><strong>{{ item.product.name }}</strong></td>
+                    <td>${{ item.product.price }}</td>
+                    <td>
+                        <div class="qty-control">
+                            <a href="{% url 'update_cart' item.id 'decrease' %}" class="btn-qty">-</a>
+                            <span>{{ item.quantity }}</span>
+                            <a href="{% url 'update_cart' item.id 'increase' %}" class="btn-qty">+</a>
+                        </div>
+                    </td>
+                    <td>${{ item.get_total_price }}</td>
+                    <td><a href="{% url 'update_cart' item.id 'delete' %}" class="btn-delete">Remove</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="cart-summary">
+            <h3>Total: <span>${{ total_price }}</span></h3>
+            <a href="{% url 'checkout' %}" class="btn-primary large">Proceed to Checkout</a>
+        </div>
+    {% else %}
+        <p>Your cart is empty. <a href="{% url 'product_list' %}">Continue Shopping</a></p>
+    {% endif %}
+</div>
+{% endblock %}
