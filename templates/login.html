@@ -1,12 +1,59 @@
 {% extends 'base.html' %}
+
 {% block content %}
-<div class="auth-card">
-    <h2>Sign In to ShopHub</h2>
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn-primary full-width">Login</button>
-    </form>
-    <p>Don't have an account? <a href="{% url 'register' %}">Register here</a></p>
+<div class="container my-5 py-3">
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+      <div class="card shadow-sm border-0 rounded-4">
+        <div class="card-body p-4 p-md-5">
+          <div class="text-center mb-4">
+            <h3 class="fw-bold mb-1">Welcome Back</h3>
+            <p class="text-muted small">Sign in to continue to ShopHub</p>
+          </div>
+
+          {% if form.errors %}
+            <div class="alert alert-danger py-2 small rounded-3" role="alert">
+              Invalid username or password. Please try again.
+            </div>
+          {% endif %}
+
+          <form method="POST" novalidate>
+            {% csrf_token %}
+
+            <div class="mb-3">
+              <label for="{{ form.username.id_for_label }}" class="form-label fw-semibold small">Username</label>
+              <input type="text" 
+                     name="{{ form.username.name }}" 
+                     id="{{ form.username.id_for_label }}" 
+                     class="form-control rounded-3 py-2" 
+                     placeholder="Enter your username"
+                     value="{{ form.username.value|default:'' }}"
+                     required>
+            </div>
+
+            <div class="mb-4">
+              <label for="{{ form.password.id_for_label }}" class="form-label fw-semibold small">Password</label>
+              <input type="password" 
+                     name="{{ form.password.name }}" 
+                     id="{{ form.password.id_for_label }}" 
+                     class="form-control rounded-3 py-2" 
+                     placeholder="Enter your password"
+                     required>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 py-2 rounded-3 fw-semibold shadow-sm">
+              Sign In
+            </button>
+          </form>
+
+          <div class="text-center mt-4 pt-3 border-top">
+            <span class="text-muted small">Don't have an account?</span>
+            <a href="{% url 'register' %}" class="small fw-semibold text-decoration-none ms-1">Register here</a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock %}
